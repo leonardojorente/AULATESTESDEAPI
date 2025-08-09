@@ -29,7 +29,7 @@ function transferValue(fromUsername, toUsername, value) {
   if (typeof value !== 'number' || value <= 0) throw new Error('Valor inválido');
   const fromUser = findUserByUsername(fromUsername);
   const toUser = findUserByUsername(toUsername);
-  if (!fromUser || !toUser) throw new Error('Usuário não encontrado erro');
+  if (!fromUser || !toUser) throw new Error('Usuário não encontrado');
   if (fromUser.balance < value) throw new Error('Saldo insuficiente');
   if (!toUser.isFavorecido && value >= 5000) throw new Error('Transferência acima do limite para não favorecidos');
   fromUser.balance -= value;
