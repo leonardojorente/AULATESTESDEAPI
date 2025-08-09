@@ -16,7 +16,7 @@ describe('User Controller Tests', () => {
                     to: 'user2',
                     value: 100
                 });
-            expect(resposta.status).to.equal(400);
+            expect(resposta.status).to.equal(401);
             expect(resposta.body).to.have.property('error', 'Usuário não encontrado');
        })
     })
