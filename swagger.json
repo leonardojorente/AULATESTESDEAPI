@@ -5,6 +5,18 @@
     "version": "1.0.0",
     "description": "API para registro, login, consulta de usuários e transferência de valores."
   },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    { "bearerAuth": [] }
+  ],
   "paths": {
     "/register": {
       "post": {
@@ -67,6 +79,9 @@
     "/transfer": {
       "post": {
         "summary": "Transferir valores entre usuários",
+        "security": [
+          { "bearerAuth": [] }
+        ],
         "requestBody": {
           "required": true,
           "content": {

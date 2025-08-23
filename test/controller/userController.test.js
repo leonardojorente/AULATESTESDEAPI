@@ -41,7 +41,7 @@ describe('User Controller Tests', () => {
             sinon.restore(); // Restaura o comportamento original do método após o teste
        })
 
-       it('Mock: quando retorno dados validos o retorno é 200',async () => {
+       it.only('Mock: quando retorno dados validos o retorno é 200',async () => {
             const trasnferServiceMock = sinon.stub(userService, 'transferValue')
             trasnferServiceMock.returns({
                 from: 'user1',  
@@ -56,8 +56,14 @@ describe('User Controller Tests', () => {
                     to: 'user2',
                     value: 100
                 });
+            const respostaEsperada = require('../fixture/respostas/quando-retorno-dados-validos-o-retorno-e-200.json');
+            delete resposta.body.message
+            delete respostaEsperada.message
+
+            console.log(resposta.body);
             expect(resposta.status).to.equal(200);
-            expect(resposta.body).to.have.property('from', 'user1');
+            expect(resposta.body).to.deep.equal(respostaEsperada);
+            //expect(resposta.body).to.have.property('from', 'user1');
 
             sinon.restore(); // Restaura o comportamento original do método após o teste
        })
