@@ -22,5 +22,11 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Run tests
-      run: npm test
+    - name: Run tests controller
+      run: npm run test-controller
+
+    - name: subir aplicacao
+      run: npm start && sleep 10
+
+    - name: Run tests http
+      run: npm run test-external
