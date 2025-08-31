@@ -9,14 +9,26 @@ const app = require('../../app');
 // mock
 const userService = require('../../service/userService');
 
-
+let token = ''
 describe('User Controller Tests', () => {
     describe('POST /transfer', () => {
+        beforeEach(async() => {
+            const respostaLogin = await request(app)
+                .post('/login')
+                .send({
+                    username: 'user1',
+                    password: 'senha123'
+                });
+
+            token = respostaLogin.body.token;    
+        });
+
         it('quando retorno dados validos o retorno é 200',async () => {
             const resposta = await request(app)
                 .post('/transfer')
+                .set('Authorization', `Bearer ${token}`)
                 .send({
-                    from: 'user1',
+                    from: 'user3',
                     to: 'user2',
                     value: 100
                 });
@@ -30,18 +42,19 @@ describe('User Controller Tests', () => {
 
             const resposta = await request(app)
                 .post('/transfer')
+                .set('Authorization', `Bearer ${token}`)
                 .send({
-                    from: 'user1',
+                    from: 'user5',
                     to: 'user2',
                     value: 100
                 });
             expect(resposta.status).to.equal(400);
-            expect(resposta.body).to.have.property('message', 'Usuário não encontrado');
+            expect(resposta.body).to.have.property('error', 'Usuário não encontrado');
 
             sinon.restore(); // Restaura o comportamento original do método após o teste
        })
 
-       it.only('Mock: quando retorno dados validos o retorno é 200',async () => {
+       it('Mock: quando retorno dados validos o retorno é 200',async () => {
             const trasnferServiceMock = sinon.stub(userService, 'transferValue')
             trasnferServiceMock.returns({
                 from: 'user1',  
@@ -51,6 +64,7 @@ describe('User Controller Tests', () => {
 
             const resposta = await request(app)
                 .post('/transfer')
+                .set('Authorization', `Bearer ${token}`)
                 .send({
                     from: 'user1',
                     to: 'user2',
